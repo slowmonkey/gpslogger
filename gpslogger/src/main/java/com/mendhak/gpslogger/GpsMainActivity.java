@@ -21,8 +21,15 @@ package com.mendhak.gpslogger;
 
 
 import android.Manifest;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.*;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -34,6 +41,8 @@ import android.os.*;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.IntentSenderRequest;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -141,7 +150,66 @@ public class GpsMainActivity extends AppCompatActivity
 
 
         }
+
+
+
+//        AccountManager am = AccountManager.get(this);
+//
+//        am.getAuthToken(am.getAccountsByType("com.google")[0], "Manage things", new Bundle(),
+//                this, new AccountManagerCallback<Bundle>() {
+//                    @Override
+//                    public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
+//                        try {
+//                            LOG.debug(accountManagerFuture.getResult().getString(AccountManager.KEY_AUTHTOKEN));
+//                        } catch (Exception e) {
+//                            LOG.error(e.getMessage(), e);
+//                        }
+//                    }
+//                }, new Handler(Looper.getMainLooper()));
+
+        Intent intent = AccountManager.newChooseAccountIntent(null, null,
+                new String[] { "com.google" }, true, null, null,
+                null, null);
+        PendingIntent piAcct = PendingIntent.getActivity(this,0, intent, 0);
+        chooseAccount.launch(new IntentSenderRequest.Builder(piAcct).setFillInIntent(intent).build());
+
+
+
+
+//        Intent intent = AccountManager.newChooseAccountIntent(null, null,
+//                new String[] { acc_type }, true, null, null,
+//                null, null);
+//        startActivityForResult(intent, CHOOSE_ACCOUNT);
+//        registerForActivityResult(new ActivityResultCallback<>())
+
     }
+
+    ActivityResultLauncher<IntentSenderRequest> chooseAccount =  registerForActivityResult(
+            new ActivityResultContracts.StartIntentSenderForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            LOG.debug("..........................................................");
+            LOG.debug("..........................................................");
+            LOG.debug("..........................................................");
+            LOG.debug(String.valueOf(result.getData().getStringExtra(AccountManager.KEY_ACCOUNT_NAME)));
+            LOG.debug(String.valueOf(result.getData().getStringExtra(AccountManager.KEY_ACCOUNT_TYPE)));
+            AccountManager am = AccountManager.get(getApplicationContext());
+
+            am.getAuthToken(am.getAccountsByType("com.google")[0], "oauth2:https://www.googleapis.com/auth/drive.file", new Bundle(),
+                    (Activity)GpsMainActivity.this, new AccountManagerCallback<Bundle>() {
+                        @Override
+                        public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
+                            try {
+                                LOG.debug(accountManagerFuture.getResult().getString(AccountManager.KEY_AUTHTOKEN));
+                            } catch (Exception e) {
+                                LOG.error(e.getMessage(), e);
+                            }
+                        }
+                    }, new Handler(Looper.getMainLooper()));
+
+        }
+    });
 
     private final ActivityResultLauncher<String> backgroundPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(),
