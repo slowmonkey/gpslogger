@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+        <link rel="stylesheet" href="/static/main.css">
+        <link rel="shortcut icon" type="image/png" href="/static/images/favicon.png">
+        <link rel="icon" type="image/png" href="/static/images/favicon.png">
+    </head>
+
+    <body>
+        {{ content | safe }}
+
+        <footer class="container">
+            <ul class="photostream">
+                {%- for photo in flickrphotos -%}
+                <li><a href="{{ photo.link }}"><img width="150" height="150" alt="thumbnail" src="{{ photo.img }}"></a></li>
+                {%- endfor -%}
+            </ul>
+            <section class="copy">
+                <p>&mdash; &copy; {% year %} Mendhak &mdash;</p>
+            </section>
+        </footer>
+    </body>
+
+</html>

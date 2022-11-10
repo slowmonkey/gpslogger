@@ -31,6 +31,10 @@ module.exports = (function (eleventyConfig) {
         return collectionApi.getFilteredByGlob('content/more*.*');
     });
 
+    eleventyConfig.addCollection('privacypolicy', function (collectionApi) {
+        return collectionApi.getFilteredByGlob('text/*.*');
+    });
+
     // Config values that could be passed via arguments but it's just easier in here. 
     return {
         dir: {

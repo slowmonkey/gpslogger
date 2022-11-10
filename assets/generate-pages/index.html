@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+---
+layout: base
+title: GPSLogger for Android
+permalink: /
+---
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width">
-    <title>GPSLogger for Android</title>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
-    <link rel="stylesheet" href="static/main.css">
-    <link rel="shortcut icon" type="image/png" href="static/images/favicon.png">
-    <link rel="icon" type="image/png" href="static/images/favicon.png">
-</head>
-
-<body>
     <header class="header">
         <div class="container"><img src="static/images/gps_icon05.png" class="pull-left logo">
             <h1><a href="https://gpslogger.app/">GPSLogger for Android</a></h1>
@@ -37,8 +27,6 @@
                 <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="65px"
                     class="pull-right" />
             </a>
-
-
         </div>
     </header>
     <div class="container">
@@ -76,18 +64,3 @@
             {%- endfor -%}
         </main>
     </div>
-
-
-    <footer class="container">
-        <ul class="photostream">
-            {%- for photo in flickrphotos -%}
-            <li><a href="{{ photo.link }}"><img width="150" height="150" alt="thumbnail" src="{{ photo.img }}"></a></li>
-            {%- endfor -%}
-        </ul>
-        <section class="copy">
-            <p>&mdash; &copy; {% year %} Mendhak &mdash;</p>
-        </section>
-    </footer>
-</body>
-
-</html>

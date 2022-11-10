@@ -5,6 +5,7 @@ services:
     volumes:
       - ${PWD}:/app
       - ${PWD}/../text/faq:/app/faq
+      - ${PWD}/../text/privacypolicy.md:/app/text/privacypolicy.md
     working_dir: /app
     command:
       - /bin/sh
